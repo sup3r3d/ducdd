@@ -1,5 +1,6 @@
 package touhou.enemies;
 
+import bases.FrameCounter;
 import bases.GameObject;
 import tklibs.SpriteUtils;
 import bases.Vector2D;
@@ -12,10 +13,14 @@ import java.awt.*;
  */
 public class Enemy extends GameObject {
     private static final float SPEED = 3;
+    private boolean bulletLock;
+    private FrameCounter coolDownCounter;
 
     public Enemy() {
         super();
         renderer = new ImageRenderer(SpriteUtils.loadImage("assets/images/enemies/level0/blue/0.png"));
+        bulletLock = false;
+        coolDownCounter = new FrameCounter(80);
     }
 
     // Controller
@@ -26,8 +31,24 @@ public class Enemy extends GameObject {
     }
 
     private void shoot() {
-        // TODO: create enemy bullet and shoot
+        if (!bulletLock) {
+            EnemyBullet enemyBullet = new EnemyBullet();
+            enemyBullet.getPosition().set(this.position.add(0, 30));
+            GameObject.add(enemyBullet);
+            bulletLock = true;
+            coolDownCounter.reset();
+        }
+        unlockBullet();
     }
+
+    private void unlockBullet() {
+        if (bulletLock){
+            if (coolDownCounter.run()){
+                bulletLock = false;
+            }
+        }
+    }
+
 
     private void fly() {
         position.addUp(0, SPEED);
