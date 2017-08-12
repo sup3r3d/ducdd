@@ -15,8 +15,14 @@ public class EnemySpawner extends GameObject {
     private Random random;
 
     public EnemySpawner() {
+        super();
         spawnCounter = new FrameCounter(70);
         random = new Random();
+    }
+
+    public void run() {
+        super.run();
+        spawn();
     }
 
     public void spawn() {

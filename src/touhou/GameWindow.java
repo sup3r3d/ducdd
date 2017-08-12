@@ -120,7 +120,6 @@ public class GameWindow extends Frame {
 
     private void run() {
         GameObject.runAll();
-        enemySpawner.spawn();
     }
 
     @Override
