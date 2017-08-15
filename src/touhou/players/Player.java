@@ -1,6 +1,9 @@
 package touhou.players;
 
 import bases.GameObject;
+import bases.Vector2D;
+import bases.physics.BoxCollider;
+import bases.physics.PhysicsBody;
 import tklibs.SpriteUtils;
 import bases.Constraints;
 import bases.FrameCounter;
@@ -12,11 +15,12 @@ import java.util.Vector;
 /**
  * Created by huynq on 8/2/17.
  */
-public class Player extends GameObject {
+public class Player extends GameObject implements PhysicsBody{
     private static final int SPEED = 5;
 
     private InputManager inputManager;
     private Constraints constraints;
+    private BoxCollider hitbox;
 
     private FrameCounter coolDownCounter;
     private boolean spellLock;
@@ -26,14 +30,16 @@ public class Player extends GameObject {
         this.spellLock = false;
         this.renderer = new ImageRenderer(SpriteUtils.loadImage("assets/images/players/straight/0.png"));
         this.coolDownCounter = new FrameCounter(3);
+        hitbox = new BoxCollider(20,20);
+        this.children.add(hitbox);
     }
 
     public void setContraints(Constraints contraints) {
         this.constraints = contraints;
     }
 
-    public void run() {
-        super.run();
+    public void run(Vector2D parentPosition) {
+        super.run(parentPosition);
 
         if (inputManager.upPressed)
             position.addUp(0, -SPEED);
@@ -74,5 +80,10 @@ public class Player extends GameObject {
 
     public void setInputManager(InputManager inputManager) {
         this.inputManager = inputManager;
+    }
+
+    @Override
+    public BoxCollider getBoxCollider() {
+        return this.hitbox;
     }
 }

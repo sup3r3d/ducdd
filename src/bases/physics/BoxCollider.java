@@ -25,18 +25,18 @@ public class BoxCollider extends GameObject {
     }
 
     private float top() {
-        return this.position.y - this.height / 2;
+        return this.screenPosition.y - this.height / 2;
     }
 
     private float bottom() {
-        return this.position.y + this.height / 2;
+        return this.screenPosition.y + this.height / 2;
     }
 
     private float right() {
-        return this.position.x + this.width / 2;
+        return this.screenPosition.x + this.width / 2;
     }
 
     private float left() {
-        return this.position.x - this.width / 2;
+        return this.screenPosition.x - this.width / 2;
     }
 }
